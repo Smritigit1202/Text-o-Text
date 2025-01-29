@@ -1,0 +1,33 @@
+<!-- word_counter/templates/word_counter/counter.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter</title>
+
+    
+   
+    <!-- Load Static Files -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  
+</head>
+<body>
+    
+      
+     <div name ="wd">Word Counter</div>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="text">Enter text:</label><br>
+        <textarea id="text" name="text" rows="4" cols="50">{{ text }}</textarea><br><br>
+        <button type="submit">Count Words</button>
+    </form>
+
+    {% if word_count is not none %}
+        <div style="margin-top: 450px;">
+            <h3>Word Count: {{ word_count }}</h3>
+        </div>
+    {% endif %}
+</body>
+</html>
