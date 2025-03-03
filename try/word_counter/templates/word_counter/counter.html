@@ -1,33 +1,97 @@
-<!-- word_counter/templates/word_counter/counter.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Counter</title>
-
-    
-   
-    <!-- Load Static Files -->
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  
+    <title>MyText - Smart Text Editor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    
-      
-     <div name ="wd">Word Counter</div>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="text">Enter text:</label><br>
-        <textarea id="text" name="text" rows="4" cols="50">{{ text }}</textarea><br><br>
-        <button type="submit">Count Words</button>
-    </form>
+<body class="flex items-center justify-center min-h-screen bg-gray-100 text-black">
+    <div class="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Sidebar for Features -->
+        <div class="w-1/4 bg-gray-200 p-4 space-y-4">
+            <h2 class="text-xl font-semibold">Text Analysis</h2>
+             <button id="replaceBtn" class="w-full bg-blue-500 text-white py-2 rounded" onclick="window.location.href='/find-replace/';">Find & Replace</button>
 
-    {% if word_count is not none %}
-        <div style="margin-top: 450px;">
-            <h3>Word Count: {{ word_count }}</h3>
+            <button id="darkModeToggle" class="w-full bg-gray-700 text-white py-2 rounded">Dark Mode</button>
         </div>
-    {% endif %}
+        
+        <!-- Main Editor -->
+        <div class="w-3/4 p-6">
+            <h1 class="text-2xl font-bold">TextoText</h1>
+             <!-- Formatting Options -->
+             <div class="mt-2 space-x-2">
+                <button id="boldBtn" class="px-3 py-1 bg-gray-300 rounded font-bold">B</button>
+                <button id="italicBtn" class="px-3 py-1 bg-gray-300 rounded italic">I</button>
+                <button id="underlineBtn" class="px-3 py-1 bg-gray-300 rounded underline">U</button>
+            </div>
+            <textarea id="textInput" class="w-full h-40 border border-gray-300 rounded p-2 mt-2"></textarea>
+            
+           
+            
+            <!-- Live Preview -->
+            <div class="mt-4 p-3 border border-gray-400 rounded">
+                <h2 class="text-lg font-semibold">Live Preview</h2>
+                <div id="livePreview" class="text-gray-700"></div>
+            </div>
+            
+            <!-- Analysis Output -->
+            <div class="mt-4 text-gray-700">
+                <p><strong>Word Count:</strong> <span id="wordCount">0</span></p>
+                <p><strong>Character Count:</strong> <span id="charCount">0</span></p>
+                <p><strong>Sentence Count:</strong> <span id="sentenceCount">0</span></p>
+                <p><strong>Reading Time:</strong> <span id="readingTime">0 min</span></p>
+                <p><strong>Most Frequent Words:</strong> <span id="wordFrequency"></span></p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("textInput").addEventListener("input", function() {
+            let text = this.value;
+            document.getElementById("livePreview").innerHTML = text.replace(/\n/g, '<br>');
+            document.getElementById("wordCount").innerText = text.split(/\s+/).filter(w => w).length;
+            document.getElementById("charCount").innerText = text.length;
+            document.getElementById("sentenceCount").innerText = text.split(/[.!?]/).filter(s => s.trim()).length;
+            document.getElementById("readingTime").innerText = (text.split(/\s+/).length / 200).toFixed(2) + " min";
+        });
+        
+        document.getElementById("boldBtn").addEventListener("click", function() {
+            document.getElementById("textInput").style.fontWeight =
+                document.getElementById("textInput").style.fontWeight === "bold" ? "normal" : "bold";
+        });
+        document.getElementById("italicBtn").addEventListener("click", function() {
+            document.getElementById("textInput").style.fontStyle =
+                document.getElementById("textInput").style.fontStyle === "italic" ? "normal" : "italic";
+        });
+        document.getElementById("underlineBtn").addEventListener("click", function() {
+            document.getElementById("textInput").style.textDecoration =
+                document.getElementById("textInput").style.textDecoration === "underline" ? "none" : "underline";
+        });
+        
+        document.getElementById("darkModeToggle").addEventListener("click", function() {
+            document.body.classList.toggle("bg-gray-900");
+            document.body.classList.toggle("text-gray-100");
+            document.querySelector(".bg-white").classList.toggle("bg-gray-800");
+            document.querySelector(".bg-gray-200").classList.toggle("bg-gray-700");
+            document.getElementById("textInput").classList.toggle("bg-gray-900");
+            document.getElementById("textInput").classList.toggle("text-white");
+        });
+        document.getElementById("analyzeBtn").addEventListener("click", function() {
+            let text = document.getElementById("textInput").value.toLowerCase();
+            let words = text.match(/\b\w+\b/g);
+            if (!words) {
+                document.getElementById("wordFrequency").innerText = "None";
+                return;
+            }
+            let freqMap = {};
+            words.forEach(word => {
+                freqMap[word] = (freqMap[word] || 0) + 1;
+            });
+            let sortedWords = Object.entries(freqMap).sort((a, b) => b[1] - a[1]);
+            document.getElementById("wordFrequency").innerText = sortedWords.slice(0, 5).map(w => `${w[0]} (${w[1]})`).join(", ");
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find & Replace - MyText</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100 text-black">
+    <div class="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Sidebar -->
+        <div class="w-1/4 bg-gray-200 p-4 space-y-4">
+            <h2 class="text-xl font-semibold">Find & Replace</h2>
+            <button id="countBtn" class="w-full bg-blue-500 text-white py-2 rounded"onclick="window.location.href='/ana/';">Text Analysis</button>
+            <button id="darkModeToggle" class="w-full bg-gray-700 text-white py-2 rounded">Dark Mode</button>
+        </div>
+        
+        <!-- Main Editor -->
+        <div class="w-3/4 p-6">
+            <h1 class="text-2xl font-bold">TextoText</h1>
+            <textarea id="textInput" class="w-full h-40 border border-gray-300 rounded p-2 mt-2 bg-white text-black"></textarea>
+            
+            <div class="mt-4">
+                <input type="text" id="findWord" placeholder="Find word" class="border p-2 rounded">
+                <input type="text" id="replaceWord" placeholder="Replace with" class="border p-2 rounded">
+                <button id="replaceBtn" class="bg-green-500 text-white px-4 py-2 rounded">Replace</button>
+            </div>
+            
+            <!-- Live Preview -->
+            <div class="mt-4 p-3 border border-gray-400 rounded">
+                <h2 class="text-lg font-semibold">Live Preview</h2>
+                <div id="livePreview" class="text-gray-700"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("textInput").addEventListener("input", function() {
+            document.getElementById("livePreview").innerHTML = this.value.replace(/\n/g, '<br>');
+        });
+        
+        document.getElementById("replaceBtn").addEventListener("click", function() {
+            let text = document.getElementById("textInput").value;
+            let findWord = document.getElementById("findWord").value;
+            let replaceWord = document.getElementById("replaceWord").value;
+            let regex = new RegExp(findWord, 'g');
+            document.getElementById("textInput").value = text.replace(regex, replaceWord);
+            document.getElementById("livePreview").innerHTML = text.replace(regex, replaceWord).replace(/\n/g, '<br>');
+        });
+        
+        document.getElementById("darkModeToggle").addEventListener("click", function() {
+            document.body.classList.toggle("bg-gray-900");
+            document.body.classList.toggle("text-white");
+            document.querySelector(".bg-white").classList.toggle("bg-gray-800");
+            document.querySelector(".bg-gray-200").classList.toggle("bg-gray-700");
+            document.getElementById("textInput").classList.toggle("bg-gray-900");
+            document.getElementById("textInput").classList.toggle("text-white");
+        });
+    </script>
+</body>
+</html>

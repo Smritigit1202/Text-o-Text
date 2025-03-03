@@ -46,6 +46,8 @@ ALLOWED_HOSTS = []
 # Installed Django apps
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'tailwind',
+    'word_counter',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

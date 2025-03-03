@@ -1,0 +1,59 @@
+.word-counter-container {
+    padding: 16px;
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+  }
+  
+  .word-counter-container h1 {
+    font-size: 42px;
+    text-align: center;
+  }
+  
+  .wd{
+      text-align: center;
+      font-size: 80px;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      color: #14213d;
+      
+  
+  }
+  
+  .word-counter-container textarea {
+    width: 100%;
+    height: 100px;
+    resize: none !important;  /* Ye textarea resize ko disable karega */
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+}
+
+  
+  .word-counter-container .count-btn {
+    padding: 16px 48px;
+    margin: 32px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #0c3181;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    transition: all 500ms ease;
+  }
+  
+  .word-counter-container .count-btn:hover {
+    background: #001219;
+  }
+  
+  .word-counter-container .word-count {
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  
+  .word-counter-container .word-count span {
+    font-size: 56px;
+    font-weight: bold;
+  }
