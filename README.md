@@ -2,7 +2,7 @@
 
 # **Text-o-Text** 📝🔄  
 
-A powerful text utility web app built with **Django & Vue.js**, designed to help users with text transformations, word analysis, and content formatting.  
+A powerful text utility web app built with **Django & Tailwind CSS**, designed to help users with text transformations, word analysis, and content formatting.  
 
 ## 🚀 **Features**  
 
